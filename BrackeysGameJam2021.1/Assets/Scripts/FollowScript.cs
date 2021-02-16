@@ -8,19 +8,15 @@ public class FollowScript : MonoBehaviour
     public float speed_mod = 0.01f;
 
     public float max_distance = 1;
-
-    private GameObject[] bodies;
+    
+    private GameObject leader;
 
     private void Start() {
-        bodies = GameObject.FindGameObjectsWithTag("Player");
+        leader = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void LateUpdate() {
-        // get cursor position on screen
-        Vector3 cursor_position = Camera.main.ScreenPointToRay(Input.mousePosition).origin;
-        // Debug.Log(cursor_position);
-        
-        Vector3 movement_dir = cursor_position - transform.position;      // movement direction
+        Vector3 movement_dir = leader.transform.position - transform.position;      // movement direction
 
         // get direction vector and magnitude
         Vector3 direction = movement_dir;

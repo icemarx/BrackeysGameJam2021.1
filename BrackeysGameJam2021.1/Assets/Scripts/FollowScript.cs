@@ -15,6 +15,7 @@ public class FollowScript : MonoBehaviour
         leader = GameObject.FindGameObjectWithTag("Player");
     }
 
+    /*
     private void LateUpdate() {
         Vector3 movement_dir = leader.transform.position - transform.position;      // movement direction
 
@@ -34,4 +35,5 @@ public class FollowScript : MonoBehaviour
 
 
     }
+    */
 }

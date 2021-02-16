@@ -13,6 +13,7 @@ public class FollowScript : MonoBehaviour
 
     private void Start() {
         leader = GameObject.FindGameObjectWithTag("Player");
+        GameManager.ImHere(gameObject);
     }
 
     /*

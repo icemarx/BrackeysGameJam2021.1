@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Transform target = null;
+    // game settings
+    public bool spawn_active = false;
+    public int spawn_num = 1;
 
-    private List<Rigidbody2D> boids;
+    public Transform target = null;
+    public GameObject bird = null;
+
+    // boids algorithm attributes
+    private static List<Rigidbody2D> boids;
     public float max_speed = 1;
     public float max_distance = 1;
     public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group
@@ -34,6 +40,15 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update() {
+        // check for spawn button
+        if(spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
+            // spawn a bird at (0,i)
+            for (int i = 0; i < spawn_num; i++) {
+                Instantiate(bird, Vector2.up * i, Quaternion.identity);
+            }
+        }
+
+
         // TODO: implement this without this many lists
         List<Vector2> positions = new List<Vector2>();
         List<Vector2> velocities = new List<Vector2>();
@@ -68,6 +83,15 @@ public class GameManager : MonoBehaviour
             boids[i].velocity = velocities[i];
             // TODO: deal with rotation
         }
+    }
+
+    /// <summary>
+    /// Called by birds, it notifies the GameManager that a new bird has been spawned
+    /// and should be added to the list of all birds.
+    /// </summary>
+    /// <param name="bird">The newly created bird</param>
+    public static void ImHere(GameObject bird) {
+        boids.Add(bird.GetComponent<Rigidbody2D>());
     }
 
     /// <summary>

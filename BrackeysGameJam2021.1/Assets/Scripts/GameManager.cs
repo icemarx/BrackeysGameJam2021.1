@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject bird = null;
 
     // boids algorithm attributes
-    private static List<Rigidbody2D> boids;
+    private static List<Rigidbody2D> boids = new List<Rigidbody2D>();
     public float max_speed = 1;
     public float max_distance = 1;
     public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group
@@ -31,12 +31,6 @@ public class GameManager : MonoBehaviour
 
         // lock cursor to screen
         Cursor.lockState = CursorLockMode.Confined;
-
-        // boids algorithm initialize
-        boids = new List<Rigidbody2D>();
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Bird")) {
-            boids.Add(go.GetComponent<Rigidbody2D>());
-        }
     }
 
     private void Update() {
@@ -90,8 +84,9 @@ public class GameManager : MonoBehaviour
     /// and should be added to the list of all birds.
     /// </summary>
     /// <param name="bird">The newly created bird</param>
-    public static void ImHere(GameObject bird) {
-        boids.Add(bird.GetComponent<Rigidbody2D>());
+    public static void ImHere(GameObject bird_go) {
+        Debug.Log(bird_go);
+        boids.Add(bird_go.GetComponent<Rigidbody2D>());
     }
 
     /// <summary>

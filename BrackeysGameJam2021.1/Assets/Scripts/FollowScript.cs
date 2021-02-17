@@ -11,9 +11,51 @@ public class FollowScript : MonoBehaviour
     
     private GameObject leader;
 
+    private Rigidbody2D rb;
+
+    private SpriteRenderer sr;
+
+    [SerializeField]
+    private Sprite upSprite;
+    [SerializeField]
+    private Sprite neutralSprite;
+    [SerializeField]
+    private Sprite downSprite;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+    }
+
     private void Start() {
         leader = GameObject.FindGameObjectWithTag("Player");
         GameManager.ImHere(gameObject);
+    }
+
+    private void Update()
+    {
+        if (rb.velocity.y < -0.1f)
+        {
+            sr.sprite = downSprite;
+        }
+        else if (rb.velocity.y > 0.1f)
+        {
+            sr.sprite = upSprite;
+        }
+        else
+        {
+            sr.sprite = neutralSprite;
+        }
+
+        if (rb.velocity.x < 0f)
+        {
+            sr.flipX = false;
+        }
+        else if (rb.velocity.x > 0f)
+        {
+            sr.flipX = true;
+        }
     }
 
     /*

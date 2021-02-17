@@ -154,11 +154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn_active: 1
   spawn_num: 10
-  target: {fileID: 1691512784}
+  leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
   max_follow_speed: 8
   max_avoid_speed: 3
-  max_speed: 5
+  follow_threshold: 0.5
+  avoid_threshold: 1
   max_distance: 5
   steps: 10
   follow_weight: 0.5

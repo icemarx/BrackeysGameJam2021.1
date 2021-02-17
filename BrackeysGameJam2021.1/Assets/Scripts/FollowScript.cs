@@ -4,26 +4,13 @@ using UnityEngine;
 
 public class FollowScript : MonoBehaviour
 {
-    GameManager gm;
-
-    public float max_follow_speed = 10;
-    public float max_avoid_speed = 4;
-    public float speed = 1;
-    public float speed_mod = 0.01f;
-
-    public float max_distance = 1;
-    
-    private GameObject leader;
-
+    private GameManager gm;
     private Rigidbody2D rb;
-
     private SpriteRenderer sr;
 
+    public float max_follow_speed = 1;
+    public float max_avoid_speed = 1;
 
-    [SerializeField]
-    private float follow_threshold = 0.5f;
-    [SerializeField]
-    private float avoid_threshold = 1;
     private const int FOLLOW = 0;
     private const int AVOID = 1;
     private int status = FOLLOW;
@@ -43,7 +30,6 @@ public class FollowScript : MonoBehaviour
     }
 
     private void Start() {
-        leader = GameObject.FindGameObjectWithTag("Player");
         gm = FindObjectOfType<GameManager>();
         GameManager.ImHere(gameObject);
 
@@ -79,17 +65,18 @@ public class FollowScript : MonoBehaviour
     private Vector2 offset;
     private void LateUpdate() {
         // check distance towards cursor
-        Vector2 desired_direction = leader.transform.position - transform.position;
+        Vector2 desired_direction = gm.leader.position - transform.position;
        
         // determine steering and cap speed
         Vector2 steering = desired_direction.normalized * gm.follow_weight + rb.velocity;
         steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
 
+
         // check for status changes
-        if (status == FOLLOW && desired_direction.magnitude < follow_threshold) {
+        if (status == FOLLOW && desired_direction.magnitude < gm.follow_threshold) {
             status = AVOID;
             offset = Random.insideUnitCircle.normalized * Mathf.Min(steering.magnitude, max_avoid_speed);
-        } else if (status == AVOID && desired_direction.magnitude > avoid_threshold) {
+        } else if (status == AVOID && desired_direction.magnitude > gm.avoid_threshold) {
             status = FOLLOW;
         }
 

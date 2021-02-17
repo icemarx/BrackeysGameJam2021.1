@@ -8,16 +8,18 @@ public class GameManager : MonoBehaviour
     public bool spawn_active = false;
     public int spawn_num = 1;
 
-    public Transform target = null;     // target transform
+    public Transform leader = null;     // target transform
     public GameObject bird = null;      // bird object instance (for spawning)
 
     // bird details
-    public float max_follow_speed = 10;
-    public float max_avoid_speed = 4;
+    public float max_follow_speed = 1;
+    public float max_avoid_speed = 1;
 
     // boids algorithm attributes
     private static List<Rigidbody2D> boids = new List<Rigidbody2D>();
-    public float max_speed = 1;
+    public float follow_threshold = 0.5f;
+    public float avoid_threshold = 1;
+    // public float max_speed = 1;  // depricated
     public float max_distance = 1;
     public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group
     public float follow_weight = 0;
@@ -27,8 +29,8 @@ public class GameManager : MonoBehaviour
     public float alignment_weight = 0;
 
     void Start() {
-        if(target == null) {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
+        if(leader == null) {
+            leader = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         // Set mouse cursor to not be visible

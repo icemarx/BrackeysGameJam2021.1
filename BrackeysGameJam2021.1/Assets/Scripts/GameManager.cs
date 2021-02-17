@@ -8,8 +8,12 @@ public class GameManager : MonoBehaviour
     public bool spawn_active = false;
     public int spawn_num = 1;
 
-    public Transform target = null;
-    public GameObject bird = null;
+    public Transform target = null;     // target transform
+    public GameObject bird = null;      // bird object instance (for spawning)
+
+    // bird details
+    public float max_follow_speed = 10;
+    public float max_avoid_speed = 4;
 
     // boids algorithm attributes
     private static List<Rigidbody2D> boids = new List<Rigidbody2D>();

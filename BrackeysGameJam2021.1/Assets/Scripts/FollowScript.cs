@@ -46,6 +46,9 @@ public class FollowScript : MonoBehaviour
         leader = GameObject.FindGameObjectWithTag("Player");
         gm = FindObjectOfType<GameManager>();
         GameManager.ImHere(gameObject);
+
+        max_follow_speed = gm.max_follow_speed + Random.Range(-1f, 1f);
+        max_avoid_speed = gm.max_avoid_speed + Random.Range(-1f, 1f);
     }
 
     private void Update()
@@ -75,18 +78,17 @@ public class FollowScript : MonoBehaviour
 
     private Vector2 offset;
     private void LateUpdate() {
-
         // check distance towards cursor
         Vector2 desired_direction = leader.transform.position - transform.position;
        
         // determine steering and cap speed
         Vector2 steering = desired_direction.normalized * gm.follow_weight + rb.velocity;
-        steering = steering.normalized * Mathf.Min(steering.magnitude, gm.max_speed);
+        steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
 
         // check for status changes
         if (status == FOLLOW && desired_direction.magnitude < follow_threshold) {
             status = AVOID;
-            offset = Random.insideUnitCircle.normalized * Mathf.Min(steering.magnitude, gm.max_speed);  // TODO: apply different max speed
+            offset = Random.insideUnitCircle.normalized * Mathf.Min(steering.magnitude, max_avoid_speed);
         } else if (status == AVOID && desired_direction.magnitude > avoid_threshold) {
             status = FOLLOW;
         }

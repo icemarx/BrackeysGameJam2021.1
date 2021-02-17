@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public float max_distance = 1;
     public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group
     public float follow_weight = 0;
+    public float steering_weight = 0;
     public float cohesion_weight = 0;
     public float separation_weight = 0;
     public float alignment_weight = 0;
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
+        /*
         // TODO: implement this without this many lists
         List<Vector2> positions = new List<Vector2>();
         List<Vector2> velocities = new List<Vector2>();
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
             boids[i].velocity = velocities[i];
             // TODO: deal with rotation
         }
+        */
     }
 
     /// <summary>

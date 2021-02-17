@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class FollowScript : MonoBehaviour
 {
+    GameManager gm;
+
+    public float max_follow_speed = 10;
+    public float max_avoid_speed = 4;
     public float speed = 1;
     public float speed_mod = 0.01f;
 
@@ -14,6 +18,16 @@ public class FollowScript : MonoBehaviour
     private Rigidbody2D rb;
 
     private SpriteRenderer sr;
+
+
+    [SerializeField]
+    private float follow_threshold = 0.5f;
+    [SerializeField]
+    private float avoid_threshold = 1;
+    private const int FOLLOW = 0;
+    private const int AVOID = 1;
+    private int status = FOLLOW;
+
 
     [SerializeField]
     private Sprite upSprite;
@@ -30,6 +44,7 @@ public class FollowScript : MonoBehaviour
 
     private void Start() {
         leader = GameObject.FindGameObjectWithTag("Player");
+        gm = FindObjectOfType<GameManager>();
         GameManager.ImHere(gameObject);
     }
 
@@ -58,25 +73,31 @@ public class FollowScript : MonoBehaviour
         }
     }
 
-    /*
+    private Vector2 offset;
     private void LateUpdate() {
-        Vector3 movement_dir = leader.transform.position - transform.position;      // movement direction
 
-        // get direction vector and magnitude
-        Vector3 direction = movement_dir;
+        // check distance towards cursor
+        Vector2 desired_direction = leader.transform.position - transform.position;
+       
+        // determine steering and cap speed
+        Vector2 steering = desired_direction.normalized * gm.follow_weight + rb.velocity;
+        steering = steering.normalized * Mathf.Min(steering.magnitude, gm.max_speed);
 
-        float magnitude = direction.magnitude;
+        // check for status changes
+        if (status == FOLLOW && desired_direction.magnitude < follow_threshold) {
+            status = AVOID;
+            offset = Random.insideUnitCircle.normalized * Mathf.Min(steering.magnitude, gm.max_speed);  // TODO: apply different max speed
+        } else if (status == AVOID && desired_direction.magnitude > avoid_threshold) {
+            status = FOLLOW;
+        }
 
-        // move towards cursor
-        float mod = magnitude * speed * speed_mod;
-        direction = direction.normalized * (mod * mod + mod);
-        // Debug.Log(direction);
-        
-        // transform.position += direction * magnitude*magnitude * speed * speed_mod + direction * magnitude * speed * speed_mod;
+        // fixed vector while avoidance
+        if (status == AVOID) {
+            steering = offset;
+        }
 
-        transform.position += direction;
-
-
+        // compute and apply steering
+        rb.velocity = steering;
     }
-    */
+
 }

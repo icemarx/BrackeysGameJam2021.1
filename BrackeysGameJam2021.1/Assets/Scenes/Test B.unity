@@ -156,10 +156,10 @@ MonoBehaviour:
   spawn_num: 10
   target: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
-  max_speed: 0.025
-  max_distance: 0.5
+  max_speed: 5
+  max_distance: 5
   steps: 10
-  follow_weight: 0.2
+  follow_weight: 0.5
   cohesion_weight: 0.3
   separation_weight: 0.2
   alignment_weight: 0.01
@@ -599,6 +599,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619116388292302258, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619116388292302259, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619116388292302259, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619116388292302259, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
+      propertyPath: m_GravityScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}

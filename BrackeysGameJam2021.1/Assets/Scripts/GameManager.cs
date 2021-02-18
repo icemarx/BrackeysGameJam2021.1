@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private static List<Rigidbody2D> boids = new List<Rigidbody2D>();
     public float follow_threshold = 0.5f;
     public float avoid_threshold = 1;
+    public int max_neighbors_num = 20;
     // public float max_speed = 1;  // depricated
     public float max_distance = 1;
     public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group

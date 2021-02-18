@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3619116388292302257}
   - component: {fileID: 3619116388292302256}
   - component: {fileID: 3619116388292302259}
+  - component: {fileID: 1375072738724025009}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Bird
@@ -96,9 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87623967b00f9143b33ca43cabe2a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  speed_mod: 0.001
-  max_distance: 1
+  max_follow_speed: 1
+  max_avoid_speed: 1
   upSprite: {fileID: 21300000, guid: ee48c48d61613a04bb697a899d81ed8a, type: 3}
   neutralSprite: {fileID: 21300000, guid: ff8a299e8230bde4583da9d524f559cb, type: 3}
   downSprite: {fileID: 21300000, guid: 7921bb563ad328e4a8c61863625b670e, type: 3}
@@ -123,3 +123,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &1375072738724025009
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3619116388292302263}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.16

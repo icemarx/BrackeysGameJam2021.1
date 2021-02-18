@@ -35,6 +35,8 @@ public class FollowScript : MonoBehaviour
 
         max_follow_speed = gm.max_follow_speed + Random.Range(-1f, 1f);
         max_avoid_speed = gm.max_avoid_speed + Random.Range(-1f, 1f);
+
+        neighbors = new Collider2D[gm.max_neighbors_num];
     }
 
     private void Update()
@@ -63,7 +65,12 @@ public class FollowScript : MonoBehaviour
     }
 
     private Vector2 offset;
+    private Collider2D[] neighbors;
     private void LateUpdate() {
+        // get neighbors
+        int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors);
+        // Debug.Log(num_neighbors);
+
         // check distance towards cursor
         Vector2 desired_direction = gm.leader.position - transform.position;
        
@@ -83,10 +90,23 @@ public class FollowScript : MonoBehaviour
         // fixed vector while avoidance
         if (status == AVOID) {
             steering = offset;
+        } else {
+            // get separation vector
+            Vector2 separation_velocity = Vector2.zero;
+            for (int i = 0; i < num_neighbors; i++) {
+                float separation_direction = Vector2.Distance(transform.position, neighbors[i].transform.position);
+                if(separation_direction > 0.0001f)
+                    separation_velocity += (Vector2)(transform.position - neighbors[i].transform.position) / (separation_direction * separation_direction);
+            }
+            separation_velocity *= gm.separation_weight;
+
+            // TODO: deal with physics/speed
+            steering += separation_velocity;
         }
 
         // compute and apply steering
         rb.velocity = steering;
+
     }
 
 }

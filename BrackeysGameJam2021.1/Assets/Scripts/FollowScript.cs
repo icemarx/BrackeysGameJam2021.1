@@ -75,7 +75,7 @@ public class FollowScript : MonoBehaviour
     private void LateUpdate() {
         // get neighbors
         int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors, layer_mask);
-        Debug.Log(num_neighbors);
+        // Debug.Log(num_neighbors);
 
         // check distance towards cursor
         Vector2 desired_direction = gm.leader.position - transform.position;

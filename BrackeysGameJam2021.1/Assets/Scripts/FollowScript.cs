@@ -90,23 +90,32 @@ public class FollowScript : MonoBehaviour
         // fixed vector while avoidance
         if (status == AVOID) {
             steering = offset;
-        } else {
-            // get separation vector
+        } else if(num_neighbors > 1) {
+            // get the right vectors
             Vector2 separation_velocity = Vector2.zero;
+            Vector3 average_position = Vector2.zero;
             for (int i = 0; i < num_neighbors; i++) {
+                // separation
                 float separation_direction = Vector2.Distance(transform.position, neighbors[i].transform.position);
                 if(separation_direction > 0.0001f)
                     separation_velocity += (Vector2)(transform.position - neighbors[i].transform.position) / (separation_direction * separation_direction);
+
+                // average position
+                average_position += neighbors[i].transform.position;
             }
             separation_velocity *= gm.separation_weight;
 
-            // TODO: deal with physics/speed
-            steering += separation_velocity;
+            // calculate cohesion
+            average_position /= num_neighbors;
+            Vector2 cohesion_velocity = (Vector2) (average_position - transform.position) * gm.cohesion_weight / gm.steps;
+
+            // deal with speed
+            steering += separation_velocity + cohesion_velocity;
+            steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
         }
 
         // compute and apply steering
         rb.velocity = steering;
 
     }
-
 }

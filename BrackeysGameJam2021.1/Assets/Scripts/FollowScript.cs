@@ -44,11 +44,12 @@ public class FollowScript : MonoBehaviour
 
     private void Update()
     {
-        if (rb.velocity.y < -0.1f)
+        // Checking speed to change crow sprite
+        if (rb.velocity.y < -3f)
         {
             sr.sprite = downSprite;
         }
-        else if (rb.velocity.y > 0.1f)
+        else if (rb.velocity.y > 3f)
         {
             sr.sprite = upSprite;
         }

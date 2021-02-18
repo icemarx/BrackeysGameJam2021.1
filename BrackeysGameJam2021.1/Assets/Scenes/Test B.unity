@@ -157,7 +157,7 @@ MonoBehaviour:
   leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
   max_follow_speed: 8
-  max_avoid_speed: 3
+  max_avoid_speed: 6
   follow_threshold: 0.5
   avoid_threshold: 1
   max_neighbors_num: 20
@@ -165,7 +165,7 @@ MonoBehaviour:
   steps: 100
   follow_weight: 0.5
   steering_weight: 0
-  cohesion_weight: 3
+  cohesion_weight: 5
   separation_weight: 0.005
   alignment_weight: 0.01
 --- !u!4 &439936290

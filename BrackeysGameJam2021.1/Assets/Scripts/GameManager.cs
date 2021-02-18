@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         }
         average_velocity /= neighbors.Count;
 
-        return (average_velocity - boid.position).normalized * alignment_weight;
+        return (average_velocity - boid.velocity).normalized * alignment_weight;
     }
 
 

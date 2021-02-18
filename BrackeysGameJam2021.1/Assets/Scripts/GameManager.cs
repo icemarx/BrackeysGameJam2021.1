@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public Transform leader = null;     // target transform
     public GameObject bird = null;      // bird object instance (for spawning)
+    public GameObject egg = null;       // egg object instance (for spawning)
 
     // bird details
     public float max_follow_speed = 1;
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
     public float separation_weight = 0;
     public float alignment_weight = 0;
 
+    // game statistics
+    private static int num_of_birds = 0;
+
     void Start() {
         if(leader == null) {
             leader = GameObject.FindGameObjectWithTag("Player").transform;
@@ -45,9 +49,14 @@ public class GameManager : MonoBehaviour
         // check for spawn button
         if(spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
             // spawn a bird at (0,i)
+            Debug.Log("SPAWN BIRD");
             for (int i = 0; i < spawn_num; i++) {
                 Instantiate(bird, Vector2.up * i, Quaternion.identity);
             }
+        } else if(spawn_active && Input.GetKeyDown(KeyCode.E) && egg != null) {
+            // spawn an egg at (0,0)
+            Debug.Log("SPAWN EGG");
+            Instantiate(egg, Vector2.zero, Quaternion.identity);
         }
 
         /*
@@ -96,6 +105,8 @@ public class GameManager : MonoBehaviour
     public static void ImHere(GameObject bird_go) {
         Debug.Log(bird_go);
         boids.Add(bird_go.GetComponent<Rigidbody2D>());
+
+        num_of_birds++;
     }
 
     /// <summary>

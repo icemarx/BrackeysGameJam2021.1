@@ -71,7 +71,7 @@ public class FollowScript : MonoBehaviour
     private Collider2D[] neighbors;
     private void LateUpdate() {
         // get neighbors
-        int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors);
+        int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors, 6);
         // Debug.Log(num_neighbors);
 
         // check distance towards cursor

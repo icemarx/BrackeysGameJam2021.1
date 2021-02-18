@@ -8,8 +8,15 @@ public class GameManager : MonoBehaviour
     public bool spawn_active = false;
     public int spawn_num = 1;
 
+    // random field
+    private float rand_min_x = -8.5f;
+    private float rand_max_x = 8.5f;
+    private float rand_min_y = -3.5f;
+    private float rand_max_y = 4.5f;
+
     public Transform leader = null;     // target transform
     public GameObject bird = null;      // bird object instance (for spawning)
+    public GameObject egg = null;       // egg object instance (for spawning)
 
     // bird details
     public float max_follow_speed = 1;
@@ -29,6 +36,9 @@ public class GameManager : MonoBehaviour
     public float separation_weight = 0;
     public float alignment_weight = 0;
 
+    // game statistics
+    private static int num_of_birds = 0;
+
     void Start() {
         if(leader == null) {
             leader = GameObject.FindGameObjectWithTag("Player").transform;
@@ -39,14 +49,28 @@ public class GameManager : MonoBehaviour
 
         // lock cursor to screen
         Cursor.lockState = CursorLockMode.Confined;
+
+        // spawn the first egg
+        SpawnEgg();
     }
 
     private void Update() {
         // check for spawn button
         if(spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
             // spawn a bird at (0,i)
+            Debug.Log("SPAWN BIRD");
             for (int i = 0; i < spawn_num; i++) {
                 Instantiate(bird, Vector2.up * i, Quaternion.identity);
+            }
+        } else if(spawn_active && Input.GetKeyDown(KeyCode.E) && egg != null) {
+            // spawn an egg at (0,0)
+            Debug.Log("SPAWN EGG");
+            Instantiate(egg, Vector2.zero, Quaternion.identity);
+        } else if(spawn_active && Input.GetKeyDown(KeyCode.D) && egg != null) {
+            Debug.Log("SPAWN EGGS");
+            for (int i = 0; i < spawn_num; i++) {
+                // TODO: get random vector in visible range
+                SpawnEgg();
             }
         }
 
@@ -94,8 +118,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="bird">The newly created bird</param>
     public static void ImHere(GameObject bird_go) {
-        Debug.Log(bird_go);
         boids.Add(bird_go.GetComponent<Rigidbody2D>());
+
+        num_of_birds++;
     }
 
     /// <summary>
@@ -106,6 +131,16 @@ public class GameManager : MonoBehaviour
     /// <returns>2D velocity vector that will steer the boid towards the target</returns>
     private Vector2 FollowTarget(Rigidbody2D boid, Vector2 tar) {
         return (tar-boid.position).normalized*follow_weight - boid.velocity;
+    }
+
+    /// <summary>
+    /// Spawns an egg GameObject onto a random point in the sceene, determined by the
+    /// preset limits.
+    /// </summary>
+    public void SpawnEgg() {
+        float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
+        float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
+        Instantiate(egg, new Vector2(x, y), Quaternion.identity);
     }
 
     /// <summary>

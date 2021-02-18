@@ -15,6 +15,7 @@ public class FollowScript : MonoBehaviour
     private const int FOLLOW = 1;
     private const int AVOID = 0;
     private int status = FOLLOW;
+    private int layer_mask;
 
 
     [SerializeField]
@@ -40,6 +41,8 @@ public class FollowScript : MonoBehaviour
         avoid_threshold = gm.avoid_threshold + Random.Range(-0.1f, 0.1f);
 
         neighbors = new Collider2D[gm.max_neighbors_num];
+
+        layer_mask = 1 << LayerMask.NameToLayer("BirdLayer");
     }
 
     private void Update()
@@ -72,7 +75,7 @@ public class FollowScript : MonoBehaviour
     private Collider2D[] neighbors;
     private void LateUpdate() {
         // get neighbors
-        int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors);
+        int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors, layer_mask);
         // Debug.Log(num_neighbors);
 
         // check distance towards cursor

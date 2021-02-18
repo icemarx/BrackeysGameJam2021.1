@@ -156,6 +156,7 @@ MonoBehaviour:
   spawn_num: 1
   leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
+  egg: {fileID: 5347937371543122509, guid: e4baa475ba787d34db0f1e5bb4901417, type: 3}
   max_follow_speed: 8
   max_avoid_speed: 6
   follow_threshold: 0.5

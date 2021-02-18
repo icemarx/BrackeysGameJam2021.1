@@ -40,7 +40,11 @@ public class GameManager : MonoBehaviour
     private static int num_of_birds = 0;
 
     void Start() {
-        if(leader == null) {
+        // Screen.SetResolution(1920, 1080, false);
+        // QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 30;
+
+        if (leader == null) {
             leader = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
@@ -56,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     private void Update() {
         // check for spawn button
-        if(spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
+        if (spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
             // spawn a bird at (0,i)
             Debug.Log("SPAWN BIRD");
             for (int i = 0; i < spawn_num; i++) {

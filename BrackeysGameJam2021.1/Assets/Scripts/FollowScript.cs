@@ -73,7 +73,7 @@ public class FollowScript : MonoBehaviour
 
     private Vector2 offset;
     private Collider2D[] neighbors;
-    private void LateUpdate() {
+    private void FixedUpdate() {
         // get neighbors
         int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, gm.max_distance, neighbors, layer_mask);
         // Debug.Log(num_neighbors);
@@ -129,9 +129,9 @@ public class FollowScript : MonoBehaviour
             steering += separation_velocity + cohesion_velocity + alignment;           
 
         }
-        steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
-        // if (status == FOLLOW) steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
-        // else steering = steering.normalized * Mathf.Min(steering.magnitude, max_avoid_speed);
+        // steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
+        if (status == FOLLOW) steering = steering.normalized * Mathf.Min(steering.magnitude, max_follow_speed);
+        else steering = steering.normalized * Mathf.Min(steering.magnitude, max_avoid_speed);
 
         // compute and apply steering
         rb.velocity = steering;

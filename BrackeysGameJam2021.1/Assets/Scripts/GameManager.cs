@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,6 +56,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int defeat_monster_score = 1;
 
+    // UI references
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private TextMeshProUGUI birdCounter;
+
 
     void Start() {
         // Screen.SetResolution(1920, 1080, false);
@@ -79,6 +86,11 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update() {
+
+        // update UI counters
+        scoreText.text = string.Format("{0}", score);
+        birdCounter.text = string.Format("{0} / {1}", num_of_birds, max_bird_num);
+
         // check for spawn button
         if (spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
             // spawn a bird at (0,i)

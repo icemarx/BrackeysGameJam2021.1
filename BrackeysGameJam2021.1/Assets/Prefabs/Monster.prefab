@@ -103,6 +103,7 @@ MonoBehaviour:
   jump_force_mod: 2.5
   target: {fileID: 0}
   reach: 0.4
+  num_birds_to_die: 10
   max_to_eat: 5
 --- !u!50 &5106533395489083675
 Rigidbody2D:

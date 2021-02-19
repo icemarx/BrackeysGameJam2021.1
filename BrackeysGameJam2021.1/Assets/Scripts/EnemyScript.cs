@@ -27,6 +27,8 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private float reach = 1;        // how far does the monster reach to eat birds
     [SerializeField]
+    private int num_birds_to_die = 20;   // number of birds needed in proximity for the monster to die
+    [SerializeField]
     private int max_to_eat = 5;     // maximal number that the monster can eat in one jump
     private int eaten = 0;          // number of birds eaten by the monster in this jump
     private int all_eaten = 0;      // number of birds eaten by the monster
@@ -39,11 +41,15 @@ public class EnemyScript : MonoBehaviour
     }
     
     private void Update() {
-        Collider2D[] col = new Collider2D[max_to_eat];
-        if (status == JUMPING) {
-            // eating mechanic
-            int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, reach, col, 1 << LayerMask.NameToLayer("BirdLayer"));
+        Collider2D[] col = new Collider2D[num_birds_to_die];
+        int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, reach, col, 1 << LayerMask.NameToLayer("BirdLayer"));
 
+        if (num_neighbors >= num_birds_to_die) {
+            Debug.Log("Kill");
+            // kill monster
+            gm.KillMonster(gameObject);
+        } else if (status == JUMPING) {
+            // eating mechanic
             if(num_neighbors > 0) {
                 for(int i = 0; i < num_neighbors && eaten < max_to_eat; i++) {
                     if (col[0].CompareTag("Bird")) {

@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviour
     private int egg_hatch_score = 1;
     [SerializeField]
     private int bird_eaten_score = 0;
-    // [SerializeField]
-    // private int defeat_monster_score = 1;   // TODO
+    [SerializeField]
+    private int defeat_monster_score = 1;
 
 
     void Start() {
@@ -193,15 +193,28 @@ public class GameManager : MonoBehaviour
         if (!egg_active) SpawnEgg();
     }
 
+    /// <summary>
+    /// Called by a monster when enough birds collide with it. The monster is killed. This method
+    /// handles destroying the monster GameObject and score increase.
+    /// </summary>
+    /// <param name="go"></param>
+    public void KillMonster(GameObject go) {
+        Destroy(go);
+
+        // score change
+        score += defeat_monster_score;
+    }
+
 
     IEnumerator SpawnMonster() {
-        while(true) {
-            yield return new WaitForSeconds(avg_spawn_time + Random.Range(-1f, 1f));
-
+        yield return new WaitForSeconds(5);
+        while (true) {
             // spawn
             float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
             float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
             Instantiate(monster, new Vector2(x, y), Quaternion.identity);
+
+            yield return new WaitForSeconds(avg_spawn_time + Random.Range(-1f, 1f));
         }
     }
 

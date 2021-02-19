@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         boids.Add(bird_go.GetComponent<Rigidbody2D>());
 
         num_of_birds++;
-        Debug.Log(num_of_birds);
+        // Debug.Log(num_of_birds);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
     public static void EatBird(GameObject go) {
         num_of_birds--;
         Destroy(go);
-        Debug.Log(num_of_birds);
+        // Debug.Log(num_of_birds);
     }
 
     /// <summary>

@@ -33,7 +33,7 @@ public class FollowScript : MonoBehaviour
 
     private void Start() {
         gm = FindObjectOfType<GameManager>();
-        GameManager.ImHere(gameObject);
+        gm.ImHere(gameObject);
 
         max_follow_speed = gm.max_follow_speed + Random.Range(-1f, 1f);
         max_avoid_speed = gm.max_avoid_speed + Random.Range(-1f, 1f);

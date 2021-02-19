@@ -67,7 +67,7 @@ public class EnemyScript : MonoBehaviour
         float my_waiting_time = avg_wait_time + Random.Range(-1f, 1f);
         yield return new WaitForSeconds(my_waiting_time);
 
-        Debug.Log("JUMP!!!");
+        // Debug.Log("JUMP!!!");
         status = JUMPING;
         eaten = 0;
         rb.velocity = (target.position - transform.position) * jump_force_mod;

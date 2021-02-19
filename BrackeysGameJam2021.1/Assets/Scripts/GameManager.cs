@@ -41,6 +41,15 @@ public class GameManager : MonoBehaviour
     public float separation_weight = 0;
     public float alignment_weight = 0;
 
+    // game score
+    public int score = 0;
+    [SerializeField]
+    private int egg_hatch_score = 1;
+    [SerializeField]
+    private int bird_eaten_score = 0;
+    // [SerializeField]
+    // private int defeat_monster_score = 1;   // TODO
+
 
     void Start() {
         // Screen.SetResolution(1920, 1080, false);
@@ -124,11 +133,14 @@ public class GameManager : MonoBehaviour
     /// and should be added to the list of all birds.
     /// </summary>
     /// <param name="bird">The newly created bird</param>
-    public static void ImHere(GameObject bird_go) {
+    public void ImHere(GameObject bird_go) {
         boids.Add(bird_go.GetComponent<Rigidbody2D>());
 
         num_of_birds++;
         // Debug.Log(num_of_birds);
+
+        // score increase
+        score += egg_hatch_score;
     }
 
     /// <summary>
@@ -166,6 +178,9 @@ public class GameManager : MonoBehaviour
         num_of_birds--;
         Destroy(go);
         // Debug.Log(num_of_birds);
+
+        // score change
+        score += bird_eaten_score;
 
         if (!egg_active) SpawnEgg();
     }

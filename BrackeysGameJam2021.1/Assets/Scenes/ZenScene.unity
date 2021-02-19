@@ -276,13 +276,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn_active: 1
-  spawn_num: 1
+  debug_spawn_num: 1
   zenMode: 1
   max_bird_num: 50
+  numberOfBirds: 0
   leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
   egg: {fileID: 5347937371543122509, guid: e4baa475ba787d34db0f1e5bb4901417, type: 3}
   monster: {fileID: 5106533395489083676, guid: f57c6d5dae3944a49b0471e830532179, type: 3}
+  zen_spawn_num: 10
+  zen_max_bird_num: 100
   max_follow_speed: 8
   max_avoid_speed: 6
   avg_spawn_time: 20
@@ -889,6 +892,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1796792123282621860, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796792123282621860, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796792123282621860, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796792123282621863, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_margin.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796792123707185613, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796792123707185613, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1796792124068493251, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -976,6 +1003,10 @@ PrefabInstance:
     - target: {fileID: 1796792124068493255, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796792124595651615, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3522594472628224317, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

@@ -11,9 +11,12 @@ public class FollowScript : MonoBehaviour
     public float max_follow_speed = 1;
     public float max_avoid_speed = 1;
     private float avoid_threshold = 1;
+    private float cohesion_weight = 0;
 
-    private const int FOLLOW = 1;
+
     private const int AVOID = 0;
+    private const int FOLLOW = 1;
+    private const int ATTACK = 2;
     private int status = FOLLOW;
     private int layer_mask;
 
@@ -37,8 +40,8 @@ public class FollowScript : MonoBehaviour
 
         max_follow_speed = gm.max_follow_speed + Random.Range(-1f, 1f);
         max_avoid_speed = gm.max_avoid_speed + Random.Range(-1f, 1f);
-
         avoid_threshold = gm.avoid_threshold + Random.Range(-0.1f, 0.1f);
+        cohesion_weight = gm.cohesion_normal_weight;
 
         neighbors = new Collider2D[gm.max_neighbors_num];
 
@@ -87,6 +90,14 @@ public class FollowScript : MonoBehaviour
 
 
         // check for status changes
+        if (Input.GetMouseButtonDown(0)) {
+            status = ATTACK;
+            cohesion_weight = gm.cohesion_attack_weight;
+        } else if(Input.GetMouseButtonUp(0)) {
+            status = FOLLOW; // follow or avoid will lead to checking for distance
+            cohesion_weight = gm.cohesion_normal_weight;
+        }
+
         if (status == FOLLOW && desired_direction.magnitude < gm.follow_threshold) {
             status = AVOID;
             // offset = Random.insideUnitCircle.normalized * Mathf.Min(steering.magnitude, max_avoid_speed);
@@ -119,7 +130,7 @@ public class FollowScript : MonoBehaviour
 
             // calculate cohesion
             average_position /= num_neighbors;
-            Vector2 cohesion_velocity = (Vector2) (average_position - transform.position) * gm.cohesion_weight / gm.steps;
+            Vector2 cohesion_velocity = (Vector2) (average_position - transform.position) * cohesion_weight / gm.steps;
 
             // calculate alignment
             average_velocity /= num_neighbors;

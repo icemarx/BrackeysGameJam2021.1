@@ -43,7 +43,8 @@ public class GameManager : MonoBehaviour
     public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group
     public float follow_weight = 0;
     public float steering_weight = 0;
-    public float cohesion_weight = 0;
+    public float cohesion_normal_weight = 0;
+    public float cohesion_attack_weight = 0;
     public float separation_weight = 0;
     public float alignment_weight = 0;
 

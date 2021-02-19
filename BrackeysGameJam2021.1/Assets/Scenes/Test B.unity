@@ -226,7 +226,8 @@ MonoBehaviour:
   steps: 100
   follow_weight: 0.5
   steering_weight: 0
-  cohesion_weight: 5
+  cohesion_normal_weight: 5
+  cohesion_attack_weight: 100
   separation_weight: 0.005
   alignment_weight: 0.01
   score: 0

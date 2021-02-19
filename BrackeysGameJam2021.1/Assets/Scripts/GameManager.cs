@@ -8,12 +8,13 @@ public class GameManager : MonoBehaviour
 {
     // game settings
     public bool spawn_active = false;
-    public int spawn_num = 1;
+    public int debug_spawn_num = 1;
     public bool zenMode = false;
 
     // game statistics
     public int max_bird_num = 50;
     private static int num_of_birds = 0;
+    public int numberOfBirds = 0;
 
     // random field
     private float rand_min_x = -8.5f;
@@ -26,6 +27,13 @@ public class GameManager : MonoBehaviour
     public GameObject egg = null;       // egg object instance (for spawning)
     public GameObject monster = null;   // monster objsect instance (for spawning)
     private bool egg_active = false; // true if is there at least one egg on the screen
+
+    // zen mode
+    [SerializeField]
+    private int zen_spawn_num = 10;
+    [SerializeField]
+    private int zen_max_bird_num = 100;
+    private bool mouse_leader = true;
 
     // bird details
     public float max_follow_speed = 1;
@@ -91,19 +99,23 @@ public class GameManager : MonoBehaviour
         // lock cursor to screen
         Cursor.lockState = CursorLockMode.Confined;
 
+        if (zenMode) max_bird_num = zen_max_bird_num;
+
         // spawn the first egg
         SpawnEgg();
 
         // start monster spawn coroutine
-        StartCoroutine("SpawnMonster");
+        if(!zenMode) StartCoroutine("SpawnMonster");
 
         PauseGame(false);
+
     }
 
     private void Update() {
+        numberOfBirds = num_of_birds;
 
         // update UI counters
-        scoreText.text = string.Format("{0}", score);
+        if(!zenMode) scoreText.text = string.Format("{0}", score);
         birdCounter.text = string.Format("{0} / {1}", num_of_birds, max_bird_num);
 
         // change cursor appearance based on number of birds and monster kill threshold
@@ -119,29 +131,67 @@ public class GameManager : MonoBehaviour
         }
         
         // check for game over
-        if (num_of_birds <= 0f)
+        if (num_of_birds <= 0f && !zenMode)
         {
             GameOver();
         }
 
         // check for spawn button
-        if (spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
-            // spawn a bird at (0,i)
-            Debug.Log("SPAWN BIRD");
-            for (int i = 0; i < spawn_num; i++) {
-                Instantiate(bird, Vector2.up * i, Quaternion.identity);
-            }
-        } else if(spawn_active && Input.GetKeyDown(KeyCode.E) && egg != null) {
-            // spawn an egg at (0,0)
-            Debug.Log("SPAWN EGG");
-            Instantiate(egg, Vector2.zero, Quaternion.identity);
-        } else if(spawn_active && Input.GetKeyDown(KeyCode.D) && egg != null) {
-            Debug.Log("SPAWN EGGS");
-            for (int i = 0; i < spawn_num; i++) {
-                // TODO: get random vector in visible range
-                SpawnEgg();
+        if(spawn_active && !zenMode) {
+            if (Input.GetKeyDown(KeyCode.S) && bird != null) {
+                // spawn a bird at (0,i)
+                Debug.Log("SPAWN BIRD");
+                for (int i = 0; i < debug_spawn_num; i++) {
+                    Instantiate(bird, Vector2.up * i, Quaternion.identity);
+                }
+            } else if (spawn_active && Input.GetKeyDown(KeyCode.E) && egg != null) {
+                // spawn an egg at (0,0)
+                Debug.Log("SPAWN EGG");
+                Instantiate(egg, Vector2.zero, Quaternion.identity);
+            } else if (spawn_active && Input.GetKeyDown(KeyCode.D) && egg != null) {
+                Debug.Log("SPAWN EGGS");
+                for (int i = 0; i < debug_spawn_num; i++) {
+                    SpawnEgg();
+                }
             }
         }
+
+        if(zenMode) {
+            // add birds
+            if(Input.GetKeyDown(KeyCode.B) && num_of_birds < max_bird_num) {   // Spawn 1 bird
+                Instantiate(bird, RandomPointInView(), Quaternion.identity);
+            }
+            if(Input.GetKeyDown(KeyCode.N)) {   // Spawn many birds
+                for(int i = 0; i < zen_spawn_num && i + num_of_birds < max_bird_num; i++) {
+                    Instantiate(bird, RandomPointInView(), Quaternion.identity);
+                }
+            }
+
+            // remove birds
+            if(Input.GetKeyDown(KeyCode.G)) {    // Remove 1 bird
+                GameObject go = GameObject.FindGameObjectWithTag("Bird");
+                if (go != null) EatBird(go);
+            }
+            if(Input.GetKeyDown(KeyCode.H)) {   // Remove many birds
+                GameObject[] go = GameObject.FindGameObjectsWithTag("Bird");
+                for (int i = 0; i < zen_spawn_num && num_of_birds > 0; i++) {
+                    if (go[i] != null) EatBird(go[i]);
+                    else break;
+                }
+            }
+
+            // toggle target
+            if(Input.GetKeyDown(KeyCode.T)) {
+                if (leader.CompareTag("Player") && egg_active) {
+                    leader = GameObject.FindGameObjectWithTag("Egg").transform;
+                    mouse_leader = false;
+                } else {
+                    leader = GameObject.FindGameObjectWithTag("Player").transform;
+                    mouse_leader = true;
+                }
+            }
+        }
+
 
         /*
         // TODO: implement this without this many lists
@@ -212,12 +262,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void SpawnEgg() {
         if(num_of_birds < max_bird_num) {
-            float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
-            float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
-            Instantiate(egg, new Vector2(x, y), Quaternion.identity);
+            GameObject go = Instantiate(egg, RandomPointInView(), Quaternion.identity);
             egg_active = true;
+
+            if (zenMode && !mouse_leader)
+                leader = go.transform;
         } else {
             egg_active = false;
+
+            if (zenMode) {
+                leader = GameObject.FindGameObjectWithTag("Player").transform;
+                mouse_leader = true;
+            }
         }
     }
 
@@ -255,12 +311,21 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(5);
         while (true) {
             // spawn
-            float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
-            float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
-            Instantiate(monster, new Vector2(x, y), Quaternion.identity);
+            Instantiate(monster, RandomPointInView(), Quaternion.identity);
 
             yield return new WaitForSeconds(avg_spawn_time + Random.Range(-1f, 1f));
         }
+    }
+
+    /// <summary>
+    /// Returns a random point in the game plane, visible in the Window.
+    /// Use for random spawn locations etc.
+    /// </summary>
+    /// <returns>Random Vector2 of a point on screen</returns>
+    public Vector2 RandomPointInView() {
+        float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
+        float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
+        return new Vector2(x, y);
     }
 
     /*

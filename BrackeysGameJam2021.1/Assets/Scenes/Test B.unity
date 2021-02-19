@@ -211,6 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn_active: 1
   spawn_num: 1
+  max_bird_num: 50
   leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
   egg: {fileID: 5347937371543122509, guid: e4baa475ba787d34db0f1e5bb4901417, type: 3}
@@ -226,6 +227,9 @@ MonoBehaviour:
   cohesion_weight: 5
   separation_weight: 0.005
   alignment_weight: 0.01
+  score: 0
+  egg_hatch_score: 1
+  bird_eaten_score: 0
 --- !u!4 &439936290
 Transform:
   m_ObjectHideFlags: 0
@@ -726,7 +730,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &953172780
 GameObject:
   m_ObjectHideFlags: 0

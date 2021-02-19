@@ -277,6 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn_active: 1
   spawn_num: 1
+  zenMode: 1
   max_bird_num: 50
   leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}

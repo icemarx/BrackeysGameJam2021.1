@@ -35,6 +35,7 @@ public class EnemyScript : MonoBehaviour
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         gm = FindObjectOfType<GameManager>();
+        target = gm.leader;
     }
     
     private void Update() {

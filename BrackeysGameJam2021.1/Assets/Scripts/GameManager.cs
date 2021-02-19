@@ -21,11 +21,16 @@ public class GameManager : MonoBehaviour
     public Transform leader = null;     // target transform
     public GameObject bird = null;      // bird object instance (for spawning)
     public GameObject egg = null;       // egg object instance (for spawning)
+    public GameObject monster = null;   // monster objsect instance (for spawning)
     private bool egg_active = false; // true if is there at least one egg on the screen
 
     // bird details
     public float max_follow_speed = 1;
     public float max_avoid_speed = 1;
+
+    // monster details
+    [SerializeField]
+    private float avg_spawn_time = 10;
 
     // boids algorithm attributes
     private static List<Rigidbody2D> boids = new List<Rigidbody2D>();
@@ -68,6 +73,9 @@ public class GameManager : MonoBehaviour
 
         // spawn the first egg
         SpawnEgg();
+
+        // start monster spawn coroutine
+        StartCoroutine("SpawnMonster");
     }
 
     private void Update() {
@@ -183,6 +191,18 @@ public class GameManager : MonoBehaviour
         score += bird_eaten_score;
 
         if (!egg_active) SpawnEgg();
+    }
+
+
+    IEnumerator SpawnMonster() {
+        while(true) {
+            yield return new WaitForSeconds(avg_spawn_time + Random.Range(-1f, 1f));
+
+            // spawn
+            float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
+            float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
+            Instantiate(monster, new Vector2(x, y), Quaternion.identity);
+        }
     }
 
     /*

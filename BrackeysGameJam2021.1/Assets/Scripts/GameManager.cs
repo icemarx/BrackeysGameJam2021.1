@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
     public bool spawn_active = false;
     public int spawn_num = 1;
 
+    // game statistics
+    public int max_bird_num = 50;
+    private static int num_of_birds = 0;
+
     // random field
     private float rand_min_x = -8.5f;
     private float rand_max_x = 8.5f;
@@ -17,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Transform leader = null;     // target transform
     public GameObject bird = null;      // bird object instance (for spawning)
     public GameObject egg = null;       // egg object instance (for spawning)
+    private bool egg_active = false; // true if is there at least one egg on the screen
 
     // bird details
     public float max_follow_speed = 1;
@@ -36,8 +41,6 @@ public class GameManager : MonoBehaviour
     public float separation_weight = 0;
     public float alignment_weight = 0;
 
-    // game statistics
-    private static int num_of_birds = 0;
 
     void Start() {
         // Screen.SetResolution(1920, 1080, false);
@@ -140,12 +143,17 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Spawns an egg GameObject onto a random point in the sceene, determined by the
-    /// preset limits.
+    /// preset limits. This method handles having maximum number of birds as well.
     /// </summary>
     public void SpawnEgg() {
-        float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
-        float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
-        Instantiate(egg, new Vector2(x, y), Quaternion.identity);
+        if(num_of_birds < max_bird_num) {
+            float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
+            float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
+            Instantiate(egg, new Vector2(x, y), Quaternion.identity);
+            egg_active = true;
+        } else {
+            egg_active = false;
+        }
     }
 
     /// <summary>
@@ -154,12 +162,15 @@ public class GameManager : MonoBehaviour
     /// such as losing the game.
     /// </summary>
     /// <param name="go">The bird GameObject that is about to be eaten.</param>
-    public static void EatBird(GameObject go) {
+    public void EatBird(GameObject go) {
         num_of_birds--;
         Destroy(go);
         // Debug.Log(num_of_birds);
+
+        if (!egg_active) SpawnEgg();
     }
 
+    /*
     /// <summary>
     /// Returns the 2D velocity vector that steers the boid towards cohesion,
     /// based on the center of the cluster of neighboring boids.
@@ -220,5 +231,5 @@ public class GameManager : MonoBehaviour
         return (average_velocity - boid.velocity).normalized * alignment_weight;
     }
 
-
+    */
 }

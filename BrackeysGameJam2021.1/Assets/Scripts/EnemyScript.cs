@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    GameManager gm;
+
     // movement
     public float speed = 1;
     public float speed_mod = 0.001f;
@@ -32,6 +34,7 @@ public class EnemyScript : MonoBehaviour
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
+        gm = FindObjectOfType<GameManager>();
     }
     
     private void Update() {
@@ -44,7 +47,7 @@ public class EnemyScript : MonoBehaviour
                 for(int i = 0; i < num_neighbors && eaten < max_to_eat; i++) {
                     if (col[0].CompareTag("Bird")) {
                         // eat that bird
-                        GameManager.EatBird(col[0].gameObject);
+                        gm.EatBird(col[0].gameObject);
                         eaten++;
                         all_eaten++;
                     }

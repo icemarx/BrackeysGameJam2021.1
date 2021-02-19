@@ -100,7 +100,6 @@ public class GameManager : MonoBehaviour
         int selectedCursorSprite = Mathf.RoundToInt(5f * num_of_birds / MonsterToKillNumber);
         selectedCursorSprite = Mathf.Min(selectedCursorSprite, 5);
         cursorSprite.sprite = cursorSprites[selectedCursorSprite];
-        Debug.Log("Cursor sprite: " + selectedCursorSprite);
 
         // check for spawn button
         if (spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {

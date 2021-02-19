@@ -52,9 +52,9 @@ public class EnemyScript : MonoBehaviour
             // eating mechanic
             if(num_neighbors > 0) {
                 for(int i = 0; i < num_neighbors && eaten < max_to_eat; i++) {
-                    if (col[0].CompareTag("Bird")) {
+                    if (col[i].CompareTag("Bird")) {
                         // eat that bird
-                        gm.EatBird(col[0].gameObject);
+                        gm.EatBird(col[i].gameObject);
                         eaten++;
                         all_eaten++;
                     }

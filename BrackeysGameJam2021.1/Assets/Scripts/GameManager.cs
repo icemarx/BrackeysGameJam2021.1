@@ -62,7 +62,11 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private TextMeshProUGUI birdCounter;
-
+    [SerializeField]
+    private SpriteRenderer cursorSprite;
+    [SerializeField]
+    private Sprite[] cursorSprites;
+    private float MonsterToKillNumber = 15f;
 
     void Start() {
         // Screen.SetResolution(1920, 1080, false);
@@ -91,6 +95,12 @@ public class GameManager : MonoBehaviour
         // update UI counters
         scoreText.text = string.Format("{0}", score);
         birdCounter.text = string.Format("{0} / {1}", num_of_birds, max_bird_num);
+
+        // change cursor appearance based on number of birds and monster kill threshold
+        int selectedCursorSprite = Mathf.RoundToInt(5f * num_of_birds / MonsterToKillNumber);
+        selectedCursorSprite = Mathf.Min(selectedCursorSprite, 5);
+        cursorSprite.sprite = cursorSprites[selectedCursorSprite];
+        Debug.Log("Cursor sprite: " + selectedCursorSprite);
 
         // check for spawn button
         if (spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {

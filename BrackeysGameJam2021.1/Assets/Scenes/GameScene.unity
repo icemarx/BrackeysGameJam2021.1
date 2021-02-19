@@ -163,7 +163,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 36911232}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f8f18b572a153d64bbd0ca3f331081c1, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -226,7 +226,8 @@ MonoBehaviour:
   steps: 100
   follow_weight: 0.5
   steering_weight: 0
-  cohesion_weight: 5
+  cohesion_normal_weight: 0
+  cohesion_attack_weight: 0
   separation_weight: 0.005
   alignment_weight: 0.01
   score: 0
@@ -235,6 +236,14 @@ MonoBehaviour:
   defeat_monster_score: 1
   scoreText: {fileID: 1742337536}
   birdCounter: {fileID: 2105975016}
+  cursorSprite: {fileID: 1691512783}
+  cursorSprites:
+  - {fileID: 21300000, guid: 443b2cd501441f7418146b501a12b994, type: 3}
+  - {fileID: 21300000, guid: 15194d0df3f8432499ac36e609d2a4c8, type: 3}
+  - {fileID: 21300000, guid: 4e139156f7abe314cb00e9e622801558, type: 3}
+  - {fileID: 21300000, guid: 19e707cf4a8aed148b63841aa99f0f23, type: 3}
+  - {fileID: 21300000, guid: a2007185c87b0da49a99899eb4a4e562, type: 3}
+  - {fileID: 21300000, guid: 6a36f5a84cc57314193aaaf774cbdc04, type: 3}
 --- !u!4 &439936290
 Transform:
   m_ObjectHideFlags: 0
@@ -625,7 +634,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 953172780}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f8f18b572a153d64bbd0ca3f331081c1, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -843,12 +852,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 11f8739088f8a564c93f2ee40417b520, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 443b2cd501441f7418146b501a12b994, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.5}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -861,13 +870,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691512781}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1742337536 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1796792124595651615, guid: e6be3fc361bd7804b9682eacda561d46, type: 3}

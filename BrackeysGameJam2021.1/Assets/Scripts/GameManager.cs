@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     // game statistics
     public int max_bird_num = 50;
-    private static int num_of_birds = 0;
+    private int num_of_birds = 0;
     public int numberOfBirds = 0;
 
     // random field

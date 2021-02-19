@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer cursorSprite;
     [SerializeField]
     private Sprite[] cursorSprites;
-    private float MonsterToKillNumber = 15f;
+    private float MonsterToKillNumber = 10f;
 
     void Start() {
         // Screen.SetResolution(1920, 1080, false);

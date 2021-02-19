@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     // game settings
     public bool spawn_active = false;
     public int spawn_num = 1;
+    public bool zenMode = false;
 
     // game statistics
     public int max_bird_num = 50;
@@ -67,6 +69,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Sprite[] cursorSprites;
     private float MonsterToKillNumber = 10f;
+    [SerializeField]
+    private GameObject pauseScreen;
+    [SerializeField]
+    private GameObject gameOverScreen;
+
+    private bool isGamePaused = false;
 
     void Start() {
         // Screen.SetResolution(1920, 1080, false);
@@ -88,6 +96,8 @@ public class GameManager : MonoBehaviour
 
         // start monster spawn coroutine
         StartCoroutine("SpawnMonster");
+
+        PauseGame(false);
     }
 
     private void Update() {
@@ -100,6 +110,19 @@ public class GameManager : MonoBehaviour
         int selectedCursorSprite = Mathf.RoundToInt(5f * num_of_birds / MonsterToKillNumber);
         selectedCursorSprite = Mathf.Min(selectedCursorSprite, 5);
         cursorSprite.sprite = cursorSprites[selectedCursorSprite];
+
+        // pause game
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isGamePaused = !isGamePaused;
+            PauseGame(isGamePaused);
+        }
+        
+        // check for game over
+        if (num_of_birds <= 0f)
+        {
+            GameOver();
+        }
 
         // check for spawn button
         if (spawn_active && Input.GetKeyDown(KeyCode.S) && bird != null) {
@@ -302,4 +325,31 @@ public class GameManager : MonoBehaviour
     }
 
     */
+
+    public void PauseGame(bool shouldPause)
+    {
+        Time.timeScale = shouldPause ? 0f : 1f;
+        pauseScreen.SetActive(shouldPause);
+        Cursor.lockState = shouldPause ? CursorLockMode.None : CursorLockMode.Confined;
+        Cursor.visible = !shouldPause;
+        isGamePaused = shouldPause;
+    }
+
+    private void GameOver()
+    {
+        PauseGame(true);
+        pauseScreen.SetActive(false);
+        gameOverScreen.SetActive(true);
+    }
+
+    public void ButtonPressLoadScene(string SceneName)
+    {
+        // if reload scene
+        if (SceneName == "-1")
+            SceneName = SceneManager.GetActiveScene().name;
+
+        PauseGame(false);
+        SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+    }
+
 }

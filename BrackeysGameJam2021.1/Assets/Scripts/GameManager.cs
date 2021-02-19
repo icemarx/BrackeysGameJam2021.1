@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
         boids.Add(bird_go.GetComponent<Rigidbody2D>());
 
         num_of_birds++;
+        Debug.Log(num_of_birds);
     }
 
     /// <summary>
@@ -145,6 +146,18 @@ public class GameManager : MonoBehaviour
         float x = Random.value * (rand_max_x - rand_min_x) + rand_min_x;
         float y = Random.value * (rand_max_y - rand_min_y) + rand_min_y;
         Instantiate(egg, new Vector2(x, y), Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Called by a monster when it collides with a bird. It eats the bird, which is then destroyed.
+    /// This method can be changed to handle events that occur when the number of birds decreases,
+    /// such as losing the game.
+    /// </summary>
+    /// <param name="go">The bird GameObject that is about to be eaten.</param>
+    public static void EatBird(GameObject go) {
+        num_of_birds--;
+        Destroy(go);
+        Debug.Log(num_of_birds);
     }
 
     /// <summary>

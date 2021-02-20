@@ -43,6 +43,13 @@ public class GameManager : MonoBehaviour
     [Header("Monster details")]
     [SerializeField]
     private float avg_spawn_time = 10;
+    [SerializeField]
+    private float spawn_time_mod = 20;
+    [SerializeField]
+    private float max_monster_num = 1;
+    [SerializeField]
+    private float num_monsters = 0;
+
 
     // bird details
     [Header("Bird details")]
@@ -82,7 +89,7 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer cursorSprite;
     [SerializeField]
     private Sprite[] cursorSprites;
-    private float MonsterToKillNumber = 10f;
+    public float MonsterToKillNumber = 20f;
     [SerializeField]
     private GameObject gameOverScreen;
     [SerializeField]
@@ -260,7 +267,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="go">GameObject of the killed moster</param>
     public void KillMonster(GameObject go) {
+        num_monsters--;
         Destroy(go);
+        StartCoroutine("SpawnMonster");
 
         // score change
         score += defeat_monster_score;
@@ -273,11 +282,21 @@ public class GameManager : MonoBehaviour
     IEnumerator SpawnMonster() {
         yield return new WaitForSeconds(5);
         while (true) {
+            max_monster_num = Mathf.Max(num_of_birds/10, max_monster_num);
+            if (num_monsters >= max_monster_num) break;
+            Debug.Log(max_monster_num);
+
             // spawn
             Instantiate(monster, RandomPointInView(), Quaternion.identity);
+            num_monsters++;
 
-            yield return new WaitForSeconds(avg_spawn_time + Random.Range(-1f, 1f));
+            float extra_time = Mathf.Max((1 - num_of_birds*num_of_birds / max_bird_num*max_bird_num) * spawn_time_mod, 1.5f);
+            yield return new WaitForSeconds(avg_spawn_time + extra_time + Random.Range(-1f, 1f));
+
+            // float time = Mathf.Max((max_bird_num - num_of_birds) * spawn_time_mod, 1.5f);
+            // yield return new WaitForSeconds(time + Random.Range(-1f, 1f));
         }
+        yield return 0;
     }
 
     /// <summary>

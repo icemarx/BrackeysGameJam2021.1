@@ -36,6 +36,8 @@ public class EnemyScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gm = FindObjectOfType<GameManager>();
         target = gm.leader;
+
+        num_birds_to_die = Mathf.FloorToInt(gm.MonsterToKillNumber);  // TODO: improve this
     }
     
     private void Update() {
@@ -46,7 +48,8 @@ public class EnemyScript : MonoBehaviour
             // kill monster
             // Debug.Log("Kill");
             gm.KillMonster(gameObject);
-        } else if (status == JUMPING) {
+            // } else if (status == JUMPING) {
+        } else {
             // eating mechanic
             if(num_neighbors > 0) {
                 for(int i = 0; i < num_neighbors && eaten < max_to_eat; i++) {

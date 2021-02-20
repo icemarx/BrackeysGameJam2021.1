@@ -97,13 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cff24f2a599f2a4dbf113dbca901168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  speed_mod: 0.01
   avg_wait_time: 5
   jump_force_mod: 2.5
   target: {fileID: 0}
   reach: 0.4
-  num_birds_to_die: 10
+  num_birds_to_die: 20
   max_to_eat: 5
 --- !u!50 &5106533395489083675
 Rigidbody2D:

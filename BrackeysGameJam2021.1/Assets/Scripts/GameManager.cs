@@ -7,58 +7,64 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     // game settings
-    public bool spawn_active = false;
+    [Header("Game Settings")]
+    public bool dev_mode_active = false;
     public int debug_spawn_num = 1;
     public bool zenMode = false;
 
     // game statistics
+    [Header("Game Statistics")]
     public int max_bird_num = 50;
     private int num_of_birds = 0;
     public int numberOfBirds = 0;
 
-    // random field
+    [Header("Main Variables")]
+    public Transform leader = null;     // target transform
+    public GameObject bird = null;      // bird object instance (for spawning)
+    public GameObject egg = null;       // egg object instance (for spawning)
+    public GameObject monster = null;   // monster objsect instance (for spawning)
+    private bool egg_active = false;    // true if is there at least one egg on the screen
+
+    // window edges
     private float rand_min_x = -8.5f;
     private float rand_max_x = 8.5f;
     private float rand_min_y = -3.5f;
     private float rand_max_y = 4.5f;
 
-    public Transform leader = null;     // target transform
-    public GameObject bird = null;      // bird object instance (for spawning)
-    public GameObject egg = null;       // egg object instance (for spawning)
-    public GameObject monster = null;   // monster objsect instance (for spawning)
-    private bool egg_active = false; // true if is there at least one egg on the screen
-
     // zen mode
+    [Header("Zen mode")]
     [SerializeField]
     private int zen_spawn_num = 10;
     [SerializeField]
     private int zen_max_bird_num = 100;
     private bool mouse_leader = true;
-
-    // bird details
-    public float max_follow_speed = 1;
-    public float max_avoid_speed = 1;
-
+    
     // monster details
+    [Header("Monster details")]
     [SerializeField]
     private float avg_spawn_time = 10;
 
+    // bird details
+    [Header("Bird details")]
+    public float max_follow_speed = 1;
+    public float max_avoid_speed = 1;
+
     // boids algorithm attributes
-    private static List<Rigidbody2D> boids = new List<Rigidbody2D>();
-    public float follow_threshold = 0.5f;
-    public float avoid_threshold = 1;
-    public int max_neighbors_num = 20;
-    // public float max_speed = 1;  // depricated
-    public float max_distance = 1;
-    public float steps = 100;     // used with cohesion, 100 means 1% towards the center of the group
-    public float follow_weight = 0;
-    public float steering_weight = 0;
-    public float cohesion_normal_weight = 0;
-    public float cohesion_attack_weight = 0;
-    public float separation_weight = 0;
-    public float alignment_weight = 0;
+    [Header("Boids Algorithm Attributes")]
+    public int max_neighbors_num = 20;          // maximal number of neighbors taken into account when computing velocity
+    public float max_distance = 1;              // maximal distance from neighbor
+    public float follow_threshold = 0.5f;       // threshold for distance from leader, at which the status shifts to avoid
+    public float avoid_threshold = 1;           // threshold for distance from leader, at which the status shifts to follow
+    public float follow_weight = 0;             // importance of following the leader
+    public float steering_weight = 0;           // importance of steering to right direction
+    public float cohesion_normal_weight = 0;    // importance of cohesion durning non-attack modes
+    public float cohesion_attack_weight = 0;    // importance of cohesion durning attack mode 
+    public float steps = 100;                   // used with cohesion, 100 means 1% towards the center of the group
+    public float separation_weight = 0;         // importance of the separation of flock
+    public float alignment_weight = 0;          // importance of birds flight direction
 
     // game score
+    [Header("Game score")]
     public int score = 0;
     [SerializeField]
     private int egg_hatch_score = 1;
@@ -68,6 +74,7 @@ public class GameManager : MonoBehaviour
     private int defeat_monster_score = 1;
 
     // UI references
+    [Header("UI")]
     [SerializeField]
     private TextMeshProUGUI scoreText;
     [SerializeField]
@@ -78,37 +85,28 @@ public class GameManager : MonoBehaviour
     private Sprite[] cursorSprites;
     private float MonsterToKillNumber = 10f;
     [SerializeField]
-    private GameObject pauseScreen;
-    [SerializeField]
     private GameObject gameOverScreen;
-
+    [SerializeField]
+    private GameObject pauseScreen;
     private bool isGamePaused = false;
 
     void Start() {
-        // Screen.SetResolution(1920, 1080, false);
-        // QualitySettings.vSyncCount = 0;
+        // game settings
         Application.targetFrameRate = 30;
 
-        if (leader == null) {
-            leader = GameObject.FindGameObjectWithTag("Player").transform;
-        }
-
-        // Set mouse cursor to not be visible
+        // Set mouse cursor to not be visible and lock it the screen
         Cursor.visible = false;
-
-        // lock cursor to screen
         Cursor.lockState = CursorLockMode.Confined;
 
-        if (zenMode) max_bird_num = zen_max_bird_num;
-
-        // spawn the first egg
+        // game starting conditions
+        if (leader == null) leader = GameObject.FindGameObjectWithTag("Player").transform;
         SpawnEgg();
 
-        // start monster spawn coroutine
-        if(!zenMode) StartCoroutine("SpawnMonster");
+        // check game mode
+        if (zenMode) max_bird_num = zen_max_bird_num;
+        else StartCoroutine("SpawnMonster");
 
         PauseGame(false);
-
     }
 
     private void Update() {
@@ -124,31 +122,28 @@ public class GameManager : MonoBehaviour
         cursorSprite.sprite = cursorSprites[selectedCursorSprite];
 
         // pause game
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             isGamePaused = !isGamePaused;
             PauseGame(isGamePaused);
         }
         
         // check for game over
         if (num_of_birds <= 0f && !zenMode)
-        {
             GameOver();
-        }
 
-        // check for spawn button
-        if(spawn_active && !zenMode) {
+        // check for development mode commands
+        if(dev_mode_active && !zenMode) {
             if (Input.GetKeyDown(KeyCode.S) && bird != null) {
                 // spawn a bird at (0,i)
                 Debug.Log("SPAWN BIRD");
                 for (int i = 0; i < debug_spawn_num; i++) {
                     Instantiate(bird, Vector2.up * i, Quaternion.identity);
                 }
-            } else if (spawn_active && Input.GetKeyDown(KeyCode.E) && egg != null) {
+            } else if (dev_mode_active && Input.GetKeyDown(KeyCode.E) && egg != null) {
                 // spawn an egg at (0,0)
                 Debug.Log("SPAWN EGG");
                 Instantiate(egg, Vector2.zero, Quaternion.identity);
-            } else if (spawn_active && Input.GetKeyDown(KeyCode.D) && egg != null) {
+            } else if (dev_mode_active && Input.GetKeyDown(KeyCode.D) && egg != null) {
                 Debug.Log("SPAWN EGGS");
                 for (int i = 0; i < debug_spawn_num; i++) {
                     SpawnEgg();
@@ -156,6 +151,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // check for zen mode commands
         if(zenMode) {
             // add birds
             if(Input.GetKeyDown(KeyCode.B) && num_of_birds < max_bird_num) {   // Spawn 1 bird
@@ -191,54 +187,19 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-
-        /*
-        // TODO: implement this without this many lists
-        List<Vector2> positions = new List<Vector2>();
-        List<Vector2> velocities = new List<Vector2>();
-
-        // update positions, velocities
-        foreach(Rigidbody2D b in boids) {
-            // get neighbors
-            List<Rigidbody2D> neighbors = new List<Rigidbody2D>();
-            // TODO: replace this with space division
-            foreach(Rigidbody2D n in boids) {
-                if(b != n && Vector2.Distance(b.position, n.position) <= max_distance) {
-                    neighbors.Add(n);
-                }
-            }
-
-            Vector2 v1 = FollowTarget(b, new Vector2(target.position.x, target.position.y));
-            Vector2 v2 = Cohesion(b, neighbors);
-            Vector2 v3 = Separation(b, neighbors);
-            Vector2 v4 = Alignment(b, neighbors);
-
-            Vector2 v = b.velocity + v1 + v2 + v3 + v4;
-            v = v.normalized * Mathf.Min(v.magnitude, max_speed);
-
-            velocities.Add(v);
-            positions.Add(b.position + v);
-
-        }
-
-        // apply to boid
-        for(int i = 0; i < boids.Count; i++) {
-            boids[i].position = positions[i];
-            boids[i].velocity = velocities[i];
-            // TODO: deal with rotation
-        }
-        */
     }
+
+
+    /***************************************************************************************
+     *                          METHODS
+     ***************************************************************************************/
 
     /// <summary>
     /// Called by birds, it notifies the GameManager that a new bird has been spawned
-    /// and should be added to the list of all birds.
+    /// and should be accounted for
     /// </summary>
     /// <param name="bird">The newly created bird</param>
     public void ImHere(GameObject bird_go) {
-        boids.Add(bird_go.GetComponent<Rigidbody2D>());
-
         num_of_birds++;
         // Debug.Log(num_of_birds);
 
@@ -258,7 +219,7 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Spawns an egg GameObject onto a random point in the sceene, determined by the
-    /// preset limits. This method handles having maximum number of birds as well.
+    /// preset limits. This method handles having maximum number of birds as well
     /// </summary>
     public void SpawnEgg() {
         if(num_of_birds < max_bird_num) {
@@ -280,9 +241,9 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Called by a monster when it collides with a bird. It eats the bird, which is then destroyed.
     /// This method can be changed to handle events that occur when the number of birds decreases,
-    /// such as losing the game.
+    /// such as losing the game
     /// </summary>
-    /// <param name="go">The bird GameObject that is about to be eaten.</param>
+    /// <param name="go">The bird GameObject that is about to be eaten</param>
     public void EatBird(GameObject go) {
         num_of_birds--;
         Destroy(go);
@@ -296,9 +257,9 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Called by a monster when enough birds collide with it. The monster is killed. This method
-    /// handles destroying the monster GameObject and score increase.
+    /// handles destroying the monster GameObject and score increase
     /// </summary>
-    /// <param name="go"></param>
+    /// <param name="go">GameObject of the killed moster</param>
     public void KillMonster(GameObject go) {
         Destroy(go);
 
@@ -306,7 +267,10 @@ public class GameManager : MonoBehaviour
         score += defeat_monster_score;
     }
 
-
+    /// <summary>
+    /// Coroutine responsible for monster spawning.
+    /// </summary>
+    /// <returns>Time until the next monster spawns</returns>
     IEnumerator SpawnMonster() {
         yield return new WaitForSeconds(5);
         while (true) {
@@ -328,69 +292,16 @@ public class GameManager : MonoBehaviour
         return new Vector2(x, y);
     }
 
-    /*
-    /// <summary>
-    /// Returns the 2D velocity vector that steers the boid towards cohesion,
-    /// based on the center of the cluster of neighboring boids.
-    /// </summary>
-    /// <param name="boid">Rigidbody2D of the boid</param>
-    /// <param name="neighbors">Rigidbody2Ds of other boids close enough to boid
-    /// to consider relevant</param>
-    /// <returns>cohesion velocity vector</returns>
-    private Vector2 Cohesion(Rigidbody2D boid, List<Rigidbody2D> neighbors) {
-        if (neighbors.Count <= 0) return Vector2.zero;
 
-        // use neighbors
-        Vector2 average_postion = Vector2.zero;
-        foreach (Rigidbody2D n in neighbors) {
-            average_postion += n.position;
-        }
-        average_postion /= neighbors.Count;
-
-        return (average_postion - boid.position) * cohesion_weight / steps;
-    }
+    /***************************************************************************************
+     *                          UI METHODS
+     ***************************************************************************************/
 
     /// <summary>
-    /// Returns the 2D velocity vector, that steers the boid away from neighboring boids
-    /// in order to prevent collision.
+    /// Pauses or unpauses the game, based on the <c>shouldPause</c> parameter. The method
+    /// handles setting the time scale, cursor and UI
     /// </summary>
-    /// <param name="boid">Rigidbody2D of the boid</param>
-    /// <param name="neighbors">Rigidbody2Ds of other boids close enough to boid
-    /// to consider relevant</param>
-    /// <returns>separation velocity vector</returns>
-    private Vector2 Separation(Rigidbody2D boid, List<Rigidbody2D> neighbors) {
-        Vector2 separation_velocity = Vector2.zero;
-        foreach (Rigidbody2D n in neighbors) {
-            float direction = Vector2.Distance(boid.position, n.position);
-            separation_velocity += (boid.position - n.position)/ (direction*direction);
-        }
-
-        return separation_velocity.normalized*separation_weight;
-    }
-
-    /// <summary>
-    /// Returns the 2D velocity vector, that will align the boids velocity with those
-    /// of its neighbours. If there are no neighbors, return zero vector
-    /// </summary>
-    /// <param name="boid">Rigidbody2D of the boid</param>
-    /// <param name="neighbors">Rigidbody2Ds of other boids close enough to boid
-    /// to consider relevant</param>
-    /// <returns>alignment velocity vector</returns>
-    private Vector2 Alignment(Rigidbody2D boid, List<Rigidbody2D> neighbors) {
-        if (neighbors.Count <= 0) return Vector2.zero;
-
-        // use neighbors
-        Vector2 average_velocity = Vector2.zero;
-        foreach (Rigidbody2D n in neighbors) {
-            average_velocity += n.velocity;
-        }
-        average_velocity /= neighbors.Count;
-
-        return (average_velocity - boid.velocity).normalized * alignment_weight;
-    }
-
-    */
-
+    /// <param name="shouldPause">True to pause the game, false to unpause</param>
     public void PauseGame(bool shouldPause)
     {
         Time.timeScale = shouldPause ? 0f : 1f;
@@ -400,6 +311,10 @@ public class GameManager : MonoBehaviour
         isGamePaused = shouldPause;
     }
 
+    /// <summary>
+    /// Notifies the user that the game is over. The game is paused and the gameOverScreen is
+    /// shown
+    /// </summary>
     private void GameOver()
     {
         PauseGame(true);
@@ -407,6 +322,10 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(true);
     }
 
+    /// <summary>
+    /// Loads a new scene or reloads the same scene
+    /// </summary>
+    /// <param name="SceneName">Name of the scene to load. Set to <c>"-1"</c> to reload</param>
     public void ButtonPressLoadScene(string SceneName)
     {
         // if reload scene

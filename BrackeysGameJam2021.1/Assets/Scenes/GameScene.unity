@@ -540,8 +540,16 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2505256188777938976, guid: 135558013a6868a41a34163d9f61a06b, type: 3}
+      propertyPath: dev_mode_active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505256188777938976, guid: 135558013a6868a41a34163d9f61a06b, type: 3}
       propertyPath: max_monster_num
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505256188777938976, guid: 135558013a6868a41a34163d9f61a06b, type: 3}
+      propertyPath: MonsterToKillNumber
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2505256188777938977, guid: 135558013a6868a41a34163d9f61a06b, type: 3}
       propertyPath: m_Name

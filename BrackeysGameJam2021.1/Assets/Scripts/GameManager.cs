@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     private float max_monster_num = 1;
     [SerializeField]
     private float num_monsters = 0;
+    public int max_to_eat = 5;          // maximal number that the monster can eat in one jump
 
 
     // bird details
@@ -123,7 +124,7 @@ public class GameManager : MonoBehaviour
         birdCounter.text = string.Format("{0} / {1}", num_of_birds, max_bird_num);
 
         // change cursor appearance based on number of birds and monster kill threshold
-        int selectedCursorSprite = Mathf.RoundToInt(5f * num_of_birds / MonsterToKillNumber);
+        int selectedCursorSprite = Mathf.FloorToInt((cursorSprites.Length-1) * num_of_birds / (MonsterToKillNumber + max_to_eat));
         selectedCursorSprite = Mathf.Min(selectedCursorSprite, 5);
         cursorSprite.sprite = cursorSprites[selectedCursorSprite];
 

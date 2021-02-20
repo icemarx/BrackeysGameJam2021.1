@@ -26,8 +26,6 @@ public class EnemyScript : MonoBehaviour
     private float reach = 1;        // how far does the monster reach to eat birds
     [SerializeField]
     private int num_birds_to_die = 20;   // number of birds needed in proximity for the monster to die
-    [SerializeField]
-    private int max_to_eat = 5;     // maximal number that the monster can eat in one jump
     private int eaten = 0;          // number of birds eaten by the monster in this jump
     private int all_eaten = 0;      // number of birds eaten by the monster
 
@@ -52,7 +50,7 @@ public class EnemyScript : MonoBehaviour
         } else {
             // eating mechanic
             if(num_neighbors > 0) {
-                for(int i = 0; i < num_neighbors && eaten < max_to_eat; i++) {
+                for(int i = 0; i < num_neighbors && eaten < gm.max_to_eat; i++) {
                     if (col[i].CompareTag("Bird")) {
                         // eat that bird
                         gm.EatBird(col[i].gameObject);

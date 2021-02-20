@@ -307,7 +307,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = shouldPause ? 0f : 1f;
         pauseScreen.SetActive(shouldPause);
         Cursor.lockState = shouldPause ? CursorLockMode.None : CursorLockMode.Confined;
-        Cursor.visible = !shouldPause;
+        Cursor.visible = shouldPause;
         isGamePaused = shouldPause;
     }
 

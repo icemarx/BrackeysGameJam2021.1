@@ -351,6 +351,10 @@ public class GameManager : MonoBehaviour
             SceneName = SceneManager.GetActiveScene().name;
 
         PauseGame(false);
+
+        if (SceneName == "MainMenu")
+            Cursor.visible = true;
+
         SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
     }
 

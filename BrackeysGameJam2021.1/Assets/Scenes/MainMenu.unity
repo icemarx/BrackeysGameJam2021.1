@@ -187,21 +187,20 @@ MonoBehaviour:
     LMB to make <b>birds</b> huddle together.
 
 
-    When the <b>cursor</b> has 5
-    feathers, you have enough <b>birds</b> to defeat a <b>frog</b> by moving enough
-    of your <b>birds</b> over it.
+    When the <b>cursor</b> has <b>5
+    feathers</b>, move all your <b>birds</b> over a <b>frog</b> on the ground to
+    kill it.
 
 
-    Watch out! When a <b>frog</b> jumps it will
-    eat a few <b>birds</b> it touches!
+    Watch out! When a <b>frog</b> jumps it will eat a few <b>birds</b>
+    it touches!
 
 
 
-    Collect the high score, or try the
-    Zen mode for no <b>frogs</b>.
+    Collect the high score, or try the Zen mode for no <b>frogs</b>.
 
-    In Zen mode try pressing b,n,g,h,t and see
-    what happens :)'
+    In
+    Zen mode try pressing b,n,g,h,t and see what happens :)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -846,7 +845,7 @@ RectTransform:
   m_Children:
   - {fileID: 1770995196}
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1772,7 +1771,7 @@ RectTransform:
   - {fileID: 292841671}
   - {fileID: 1497320565}
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1895,7 +1894,7 @@ GameObject:
   - component: {fileID: 1453886110}
   - component: {fileID: 1453886109}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MadeForJamText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1913,7 +1912,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 7
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2049,7 +2048,7 @@ RectTransform:
   m_Children:
   - {fileID: 1536180530}
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2738,13 +2737,13 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1177655146}
+  - {fileID: 1453886108}
   - {fileID: 1847506872}
   - {fileID: 496875326}
   - {fileID: 1490041731}
   - {fileID: 1945777751}
   - {fileID: 1263384388}
   - {fileID: 1840661738}
-  - {fileID: 1453886108}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2924,7 +2923,7 @@ RectTransform:
   - {fileID: 2111835927}
   - {fileID: 690293517}
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3001,7 +3000,7 @@ RectTransform:
   m_Children:
   - {fileID: 473831020}
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3134,7 +3133,7 @@ RectTransform:
   m_Children:
   - {fileID: 1194115581}
   m_Father: {fileID: 1718016902}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

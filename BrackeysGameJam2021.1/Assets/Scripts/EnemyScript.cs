@@ -77,17 +77,25 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Ground")) {
+            status = JUMPING;
+            StartCoroutine("PrepareJump");
+        }
+    }
+
     /// <summary>
     /// Prepares the Monster to jump after some random (averaged) time
     /// </summary>
     /// <returns>Time until the jump</returns>
     private IEnumerator PrepareJump() {
-        float my_waiting_time = avg_wait_time + Random.Range(-1f, 1f);
-        yield return new WaitForSeconds(my_waiting_time);
+        while(status == WAITING) {
+            float my_waiting_time = avg_wait_time + Random.Range(-1f, 1f);
+            yield return new WaitForSeconds(my_waiting_time);
 
-        // Debug.Log("JUMP!!!");
-        status = JUMPING;
-        eaten = 0;
-        rb.velocity = (target.position - transform.position) * jump_force_mod;
+            // Debug.Log("JUMP!!!");
+            eaten = 0;
+            rb.velocity = (target.position - transform.position) * jump_force_mod;
+        }
     }
 }

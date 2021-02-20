@@ -63,7 +63,7 @@ public class EnemyScript : MonoBehaviour
             }
         }
     }
-
+    
     /// <summary>
     /// Checks if the collided objects is the ground, in which case, the monster prepares
     /// to jump.
@@ -80,7 +80,7 @@ public class EnemyScript : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Ground")) {
             status = JUMPING;
-            StartCoroutine("PrepareJump");
+            StopCoroutine("PrepareJump");
         }
     }
 

@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2505256188777938977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2505256188777938979}
+  - component: {fileID: 2505256188777938976}
+  m_Layer: 0
+  m_Name: GameManagerObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2505256188777938979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505256188777938977}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2505256188777938976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505256188777938977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10ba30abb6794846b6fd5336abeb691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dev_mode_active: 0
+  debug_spawn_num: 1
+  zenMode: 1
+  max_bird_num: 50
+  numberOfBirds: 0
+  leader: {fileID: 0}
+  bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
+  egg: {fileID: 5347937371543122509, guid: e4baa475ba787d34db0f1e5bb4901417, type: 3}
+  monster: {fileID: 5106533395489083676, guid: f57c6d5dae3944a49b0471e830532179, type: 3}
+  zen_spawn_num: 10
+  zen_max_bird_num: 100
+  avg_spawn_time: 20
+  max_follow_speed: 8
+  max_avoid_speed: 6
+  max_neighbors_num: 20
+  max_distance: 1
+  follow_threshold: 0.5
+  avoid_threshold: 1
+  follow_weight: 0.5
+  steering_weight: 10
+  cohesion_normal_weight: 10
+  cohesion_attack_weight: 20
+  steps: 100
+  separation_weight: 0.005
+  alignment_weight: 0.01
+  score: 0
+  egg_hatch_score: 1
+  bird_eaten_score: 0
+  defeat_monster_score: 5
+  scoreText: {fileID: 0}
+  birdCounter: {fileID: 0}
+  cursorSprite: {fileID: 0}
+  cursorSprites:
+  - {fileID: 21300000, guid: 443b2cd501441f7418146b501a12b994, type: 3}
+  - {fileID: 21300000, guid: 15194d0df3f8432499ac36e609d2a4c8, type: 3}
+  - {fileID: 21300000, guid: 4e139156f7abe314cb00e9e622801558, type: 3}
+  - {fileID: 21300000, guid: 19e707cf4a8aed148b63841aa99f0f23, type: 3}
+  - {fileID: 21300000, guid: a2007185c87b0da49a99899eb4a4e562, type: 3}
+  - {fileID: 21300000, guid: 6a36f5a84cc57314193aaaf774cbdc04, type: 3}
+  gameOverScreen: {fileID: 0}
+  pauseScreen: {fileID: 0}

@@ -56,7 +56,6 @@ public class GameManager : MonoBehaviour
     public float follow_threshold = 0.5f;       // threshold for distance from leader, at which the status shifts to avoid
     public float avoid_threshold = 1;           // threshold for distance from leader, at which the status shifts to follow
     public float follow_weight = 0;             // importance of following the leader
-    public float steering_weight = 0;           // importance of steering to right direction
     public float cohesion_normal_weight = 0;    // importance of cohesion durning non-attack modes
     public float cohesion_attack_weight = 0;    // importance of cohesion durning attack mode 
     public float steps = 100;                   // used with cohesion, 100 means 1% towards the center of the group

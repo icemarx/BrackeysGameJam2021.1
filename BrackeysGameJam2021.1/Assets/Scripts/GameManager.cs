@@ -6,15 +6,6 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    // [UnityEngine.HideInInspector]
-    // [UnityEngine.InspectorName("test")]
-    // [UnityEngine.Min]
-    // [UnityEngine.Range]
-    // [UnityEngine.RuntimeInitializeOnLoadMethod]
-    // [UnityEngine.SerializeField]
-    // [Space]
-    // [UnityEngine.AddComponentMenu("A/B")]
-
     // game settings
     [Header("Game Settings")]
     public bool dev_mode_active = false;
@@ -101,8 +92,6 @@ public class GameManager : MonoBehaviour
 
     void Start() {
         // game settings
-        // Screen.SetResolution(1920, 1080, false);
-        // QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 30;
 
         // Set mouse cursor to not be visible and lock it the screen
@@ -110,14 +99,12 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         // game starting conditions
-        // making sure that a leader exists
         if (leader == null) leader = GameObject.FindGameObjectWithTag("Player").transform;
-        // spawn the first egg
         SpawnEgg();
 
         // check game mode
         if (zenMode) max_bird_num = zen_max_bird_num;
-        else StartCoroutine("SpawnMonster");            // start spawning monsters
+        else StartCoroutine("SpawnMonster");
 
         PauseGame(false);
     }

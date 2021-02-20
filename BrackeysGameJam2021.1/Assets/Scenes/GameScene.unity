@@ -167,7 +167,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.36568785, y: 0.025020778}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -178,7 +178,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.7313757, y: 1.3271948}
   m_EdgeRadius: 0
 --- !u!1 &68643611
 GameObject:
@@ -276,12 +276,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn_active: 1
-  spawn_num: 1
+  debug_spawn_num: 1
+  zenMode: 0
   max_bird_num: 50
+  numberOfBirds: 0
   leader: {fileID: 1691512784}
   bird: {fileID: 3619116388292302263, guid: a1748f01d4a4a1e4eb0913391c4abda4, type: 3}
   egg: {fileID: 5347937371543122509, guid: e4baa475ba787d34db0f1e5bb4901417, type: 3}
   monster: {fileID: 5106533395489083676, guid: f57c6d5dae3944a49b0471e830532179, type: 3}
+  zen_spawn_num: 10
+  zen_max_bird_num: 100
   max_follow_speed: 8
   max_avoid_speed: 6
   avg_spawn_time: 20
@@ -453,7 +457,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.36568832}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -464,7 +468,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.7313766}
   m_EdgeRadius: 0
 --- !u!1 &573566840
 GameObject:
@@ -510,7 +514,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.4234283}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -521,7 +525,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.8468566}
   m_EdgeRadius: 0
 --- !u!1001 &777354334
 PrefabInstance:
@@ -706,7 +710,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.53890896, y: 0.015397459}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -717,7 +721,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.077818, y: 1.3387427}
   m_EdgeRadius: 0
 --- !u!1 &1582386569
 GameObject:
@@ -1129,6 +1133,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2757656775482035290, guid: e8fa6e1fd42cbe34797ce14cb2817633, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d52b706971127194185bcff2aed0d53c, type: 3}
     - target: {fileID: 4575440246036704420, guid: e8fa6e1fd42cbe34797ce14cb2817633, type: 3}
       propertyPath: m_Name
       value: MusicManager

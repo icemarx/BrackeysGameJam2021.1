@@ -6,8 +6,6 @@ public class EnemyScript : MonoBehaviour
     GameManager gm;
 
     // movement
-    public float speed = 1;
-    public float speed_mod = 0.001f;
     [SerializeField]
     private float avg_wait_time = 5;
     [SerializeField]
@@ -45,8 +43,8 @@ public class EnemyScript : MonoBehaviour
         int num_neighbors = Physics2D.OverlapCircleNonAlloc(transform.position, reach, col, 1 << LayerMask.NameToLayer("BirdLayer"));
 
         if (num_neighbors >= num_birds_to_die) {
-            Debug.Log("Kill");
             // kill monster
+            // Debug.Log("Kill");
             gm.KillMonster(gameObject);
         } else if (status == JUMPING) {
             // eating mechanic
@@ -63,6 +61,12 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the collided objects is the ground, in which case, the monster prepares
+    /// to jump.
+    /// <see cref="PrepareJump"/>
+    /// </summary>
+    /// <param name="collision">Collider the monster collided with</param>
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Ground")) {
             status = WAITING;
@@ -70,6 +74,10 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Prepares the Monster to jump after some random (averaged) time
+    /// </summary>
+    /// <returns>Time until the jump</returns>
     private IEnumerator PrepareJump() {
         float my_waiting_time = avg_wait_time + Random.Range(-1f, 1f);
         yield return new WaitForSeconds(my_waiting_time);
@@ -79,57 +87,4 @@ public class EnemyScript : MonoBehaviour
         eaten = 0;
         rb.velocity = (target.position - transform.position) * jump_force_mod;
     }
-
-    /*
-private void LateUpdate() {
-    Vector3 movement_direction = Vector3.zero;
-    switch(status) {
-        case MOVING:
-            if (go_left) {
-                movement_direction = Vector3.left * speed * speed_mod;
-
-                // change status
-                if (target.x >= transform.position.x) {
-                    status = JUMPING;
-                    eaten = 0;
-                }
-            } else {
-                movement_direction = Vector3.right * speed * speed_mod;
-
-                // change status
-                if (target.x < transform.position.x) {
-                    status = JUMPING;
-                    eaten = 0;
-                }
-            }
-
-            break;
-
-        case JUMPING:
-            movement_direction = Vector3.up * speed * speed_mod;
-
-            // change status
-            if (transform.position.y >= Math.Max(target.y, min_y))
-                status = FALLING;
-
-            break;
-
-        case FALLING:
-            movement_direction = Vector3.down * speed * speed_mod;
-
-            // check status
-            if (transform.position.y <= min_y) {
-                status = MOVING;
-
-                // change target
-                target = Camera.main.ScreenPointToRay(Input.mousePosition).origin;
-                go_left = target.x < transform.position.x;
-            }
-
-            break;
-    }
-
-    transform.position += movement_direction;
-}
-*/
 }
